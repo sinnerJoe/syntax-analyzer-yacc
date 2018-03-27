@@ -1,0 +1,56 @@
+int val;
+float val2;
+const float x = 5, y = -1;
+const int bebe = 3;
+int vasile(int i, float b);
+
+int ion(){
+    int<15> arr;
+    int i = 5, joke = 15;
+    float b = 11.5;
+    bool a = i > 15;
+}
+
+float joker(int a, float b, sex x);
+
+bool ion(float i){
+    int a = 5 + i;
+    return 15;
+}
+
+struct CoolStruct;
+
+struct CoolStruct {
+    int a;
+    CoolStruct s;
+};
+
+
+
+float someFunc(){
+        int j = ion(23);
+        j = 17;
+        for(float a=-1; a > 15; a=a+1)
+            j = j * a;
+        print(512);
+        if ( a ) 
+            print(2);
+        else
+            print(15);
+        if (15 > 54 && 11 == 23 || 12 % 2 == 1)
+            print(69);
+        int count = 15;
+        while (15>2){
+            print((-23-7)*5);
+        }            
+    }
+bool someFunc(){
+    print(50);
+}
+struct sooka;
+
+CoolStruct papanya(int az, float hey){
+    CoolStruct<6> vasya;
+    sooka yolo = joker( 1, 2 ,3 );
+    vasya = yolo;
+}

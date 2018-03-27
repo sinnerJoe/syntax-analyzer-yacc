@@ -1,0 +1,1 @@
+rm limbaj.ta* limbaj.output lex*

@@ -1,0 +1,3169 @@
+Nonterminals useless in grammar
+
+   bloc_declaratii
+
+
+Terminals unused in grammar
+
+   NEQ
+
+
+Rules useless in grammar
+
+   97 bloc_declaratii: '{' declaratii '}'
+
+
+State 84 conflicts: 1 shift/reduce
+State 95 conflicts: 1 shift/reduce
+State 178 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: progr $end
+
+    1 progr: declaratii
+
+    2 declaratii: decl_or_def
+    3           | decl_or_def declaratii
+
+    4 decl_membri: declaratie_var ';'
+    5            | declaratie_var ';' decl_membri
+
+    6 data_type: ID
+    7          | TIP_PRED
+    8          | TIP_PRED '<' INT_L '>'
+    9          | ID '<' INT_L '>'
+
+   10 decl_or_def: declaratie ';'
+   11            | definitie
+
+   12 declaratie: declaratie_var
+   13           | declaratie_const
+   14           | data_type ID formal_args
+   15           | STRUCT ID
+
+   16 declaratie_var: data_type indecl_elems
+
+   17 declaratie_const: CONST data_type const_indecl_elems
+
+   18 const_indecl_elem: ID '=' EXPR
+
+   19 const_indecl_elems: const_indecl_elem
+   20                   | const_indecl_elem ',' const_indecl_elems
+
+   21 indecl_elem: ID
+   22            | ID '=' EXPR
+
+   23 indecl_elems: indecl_elem
+   24             | indecl_elem ',' indecl_elems
+
+   25 formal_args: '(' ')'
+   26            | '(' lista_param ')'
+
+   27 definitie: data_type ID formal_args bloc
+   28          | STRUCT ID '{' decl_membri '}' ';'
+
+   29 lista_param: param
+   30            | param ',' lista_param
+
+   31 param: data_type ID
+
+   32 bloc: '{' lista_instr '}'
+
+   33 bloc_or_instr: statement
+   34              | bloc
+
+   35 lista_instr: statement
+   36            | lista_instr statement
+
+   37 apel_func: ID '(' lista_apel ')'
+   38          | ID '(' ')'
+
+   39 lista_apel: EXPR
+   40           | EXPR ',' lista_apel
+
+   41 while_line: WHILE '(' EXPR ')'
+
+   42 reference: ID
+   43          | ID '[' EXPR ']'
+
+   44 nested_ref: reference
+   45           | reference '.' nested_ref
+
+   46 statement: EXPR ';'
+   47          | declaratie_var ';'
+   48          | apel_func ';'
+   49          | assignment ';'
+   50          | PRINT '(' CT_EXPR ')' ';'
+   51          | IF '(' EXPR ')' bloc_or_instr
+   52          | IF '(' EXPR ')' bloc_or_instr ELSE bloc_or_instr
+   53          | while_line bloc_or_instr
+   54          | DO bloc while_line ';'
+   55          | FOR '(' declaratie_var ';' EXPR ';' assignment ')' bloc_or_instr
+   56          | BREAK ';'
+   57          | CONTINUE ';'
+   58          | RETURN ';'
+   59          | RETURN EXPR ';'
+
+   60 assignment: nested_ref '=' EXPR
+
+   61 EXPR: nested_ref
+   62     | EXPR '>' EXPR
+   63     | EXPR '<' EXPR
+   64     | EXPR LTE EXPR
+   65     | EXPR GTE EXPR
+   66     | EXPR EQ EXPR
+   67     | EXPR OR EXPR
+   68     | EXPR AND EXPR
+   69     | number
+   70     | apel_func
+   71     | '(' EXPR ')'
+   72     | '!' EXPR
+   73     | EXPR '+' EXPR
+   74     | '-' EXPR
+   75     | EXPR '-' EXPR
+   76     | EXPR '*' EXPR
+   77     | EXPR '/' EXPR
+   78     | EXPR '%' EXPR
+
+   79 CT_EXPR: CT_EXPR '>' CT_EXPR
+   80        | CT_EXPR '<' CT_EXPR
+   81        | CT_EXPR LTE CT_EXPR
+   82        | CT_EXPR GTE CT_EXPR
+   83        | CT_EXPR EQ CT_EXPR
+   84        | CT_EXPR OR CT_EXPR
+   85        | CT_EXPR AND CT_EXPR
+   86        | number
+   87        | '(' CT_EXPR ')'
+   88        | '!' CT_EXPR
+   89        | CT_EXPR '+' CT_EXPR
+   90        | '-' CT_EXPR
+   91        | CT_EXPR '-' CT_EXPR
+   92        | CT_EXPR '*' CT_EXPR
+   93        | CT_EXPR '/' CT_EXPR
+   94        | CT_EXPR '%' CT_EXPR
+
+   95 number: INT_L
+   96       | FLOAT_L
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'!' (33) 72 88
+'%' (37) 78 94
+'(' (40) 25 26 37 38 41 50 51 52 55 71 87
+')' (41) 25 26 37 38 41 50 51 52 55 71 87
+'*' (42) 76 92
+'+' (43) 73 89
+',' (44) 20 24 30 40
+'-' (45) 74 75 90 91
+'.' (46) 45
+'/' (47) 77 93
+';' (59) 4 5 10 28 46 47 48 49 50 54 55 56 57 58 59
+'<' (60) 8 9 63 80
+'=' (61) 18 22 60
+'>' (62) 8 9 62 79
+'[' (91) 43
+']' (93) 43
+'{' (123) 28 32
+'}' (125) 28 32
+error (256)
+ID (258) 6 9 14 15 18 21 22 27 28 31 37 38 42 43
+FOR (259) 55
+WHILE (260) 41
+DO (261) 54
+FLOAT_L (262) 96
+INT_L (263) 8 9 95
+STRUCT (264) 15 28
+ELSE (265) 52
+EQ (266) 66 83
+LTE (267) 64 81
+GTE (268) 65 82
+AND (269) 68 85
+OR (270) 67 84
+IF (271) 51 52
+PRINT (272) 50
+NEQ (273)
+TIP_PRED (274) 7 8
+BREAK (275) 56
+CONTINUE (276) 57
+RETURN (277) 58 59
+CONST (278) 17
+UMINUS (279)
+PAR (280)
+
+
+Nonterminals, with rules where they appear
+
+$accept (44)
+    on left: 0
+progr (45)
+    on left: 1, on right: 0
+declaratii (46)
+    on left: 2 3, on right: 1 3
+decl_membri (47)
+    on left: 4 5, on right: 5 28
+data_type (48)
+    on left: 6 7 8 9, on right: 14 16 17 27 31
+decl_or_def (49)
+    on left: 10 11, on right: 2 3
+declaratie (50)
+    on left: 12 13 14 15, on right: 10
+declaratie_var (51)
+    on left: 16, on right: 4 5 12 47 55
+declaratie_const (52)
+    on left: 17, on right: 13
+const_indecl_elem (53)
+    on left: 18, on right: 19 20
+const_indecl_elems (54)
+    on left: 19 20, on right: 17 20
+indecl_elem (55)
+    on left: 21 22, on right: 23 24
+indecl_elems (56)
+    on left: 23 24, on right: 16 24
+formal_args (57)
+    on left: 25 26, on right: 14 27
+definitie (58)
+    on left: 27 28, on right: 11
+lista_param (59)
+    on left: 29 30, on right: 26 30
+param (60)
+    on left: 31, on right: 29 30
+bloc (61)
+    on left: 32, on right: 27 34 54
+bloc_or_instr (62)
+    on left: 33 34, on right: 51 52 53 55
+lista_instr (63)
+    on left: 35 36, on right: 32 36
+apel_func (64)
+    on left: 37 38, on right: 48 70
+lista_apel (65)
+    on left: 39 40, on right: 37 40
+while_line (66)
+    on left: 41, on right: 53 54
+reference (67)
+    on left: 42 43, on right: 44 45
+nested_ref (68)
+    on left: 44 45, on right: 45 60 61
+statement (69)
+    on left: 46 47 48 49 50 51 52 53 54 55 56 57 58 59, on right: 33
+    35 36
+assignment (70)
+    on left: 60, on right: 49 55
+EXPR (71)
+    on left: 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78,
+    on right: 18 22 39 40 41 43 46 51 52 55 59 60 62 63 64 65 66 67
+    68 71 72 73 74 75 76 77 78
+CT_EXPR (72)
+    on left: 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94, on right:
+    50 79 80 81 82 83 84 85 87 88 89 90 91 92 93 94
+number (73)
+    on left: 95 96, on right: 69 86
+
+
+State 0
+
+    0 $accept: . progr $end
+
+    ID        shift, and go to state 1
+    STRUCT    shift, and go to state 2
+    TIP_PRED  shift, and go to state 3
+    CONST     shift, and go to state 4
+
+    progr             go to state 5
+    declaratii        go to state 6
+    data_type         go to state 7
+    decl_or_def       go to state 8
+    declaratie        go to state 9
+    declaratie_var    go to state 10
+    declaratie_const  go to state 11
+    definitie         go to state 12
+
+
+State 1
+
+    6 data_type: ID .
+    9          | ID . '<' INT_L '>'
+
+    '<'  shift, and go to state 13
+
+    $default  reduce using rule 6 (data_type)
+
+
+State 2
+
+   15 declaratie: STRUCT . ID
+   28 definitie: STRUCT . ID '{' decl_membri '}' ';'
+
+    ID  shift, and go to state 14
+
+
+State 3
+
+    7 data_type: TIP_PRED .
+    8          | TIP_PRED . '<' INT_L '>'
+
+    '<'  shift, and go to state 15
+
+    $default  reduce using rule 7 (data_type)
+
+
+State 4
+
+   17 declaratie_const: CONST . data_type const_indecl_elems
+
+    ID        shift, and go to state 1
+    TIP_PRED  shift, and go to state 3
+
+    data_type  go to state 16
+
+
+State 5
+
+    0 $accept: progr . $end
+
+    $end  shift, and go to state 17
+
+
+State 6
+
+    1 progr: declaratii .
+
+    $default  reduce using rule 1 (progr)
+
+
+State 7
+
+   14 declaratie: data_type . ID formal_args
+   16 declaratie_var: data_type . indecl_elems
+   27 definitie: data_type . ID formal_args bloc
+
+    ID  shift, and go to state 18
+
+    indecl_elem   go to state 19
+    indecl_elems  go to state 20
+
+
+State 8
+
+    2 declaratii: decl_or_def .
+    3           | decl_or_def . declaratii
+
+    ID        shift, and go to state 1
+    STRUCT    shift, and go to state 2
+    TIP_PRED  shift, and go to state 3
+    CONST     shift, and go to state 4
+
+    $default  reduce using rule 2 (declaratii)
+
+    declaratii        go to state 21
+    data_type         go to state 7
+    decl_or_def       go to state 8
+    declaratie        go to state 9
+    declaratie_var    go to state 10
+    declaratie_const  go to state 11
+    definitie         go to state 12
+
+
+State 9
+
+   10 decl_or_def: declaratie . ';'
+
+    ';'  shift, and go to state 22
+
+
+State 10
+
+   12 declaratie: declaratie_var .
+
+    $default  reduce using rule 12 (declaratie)
+
+
+State 11
+
+   13 declaratie: declaratie_const .
+
+    $default  reduce using rule 13 (declaratie)
+
+
+State 12
+
+   11 decl_or_def: definitie .
+
+    $default  reduce using rule 11 (decl_or_def)
+
+
+State 13
+
+    9 data_type: ID '<' . INT_L '>'
+
+    INT_L  shift, and go to state 23
+
+
+State 14
+
+   15 declaratie: STRUCT ID .
+   28 definitie: STRUCT ID . '{' decl_membri '}' ';'
+
+    '{'  shift, and go to state 24
+
+    $default  reduce using rule 15 (declaratie)
+
+
+State 15
+
+    8 data_type: TIP_PRED '<' . INT_L '>'
+
+    INT_L  shift, and go to state 25
+
+
+State 16
+
+   17 declaratie_const: CONST data_type . const_indecl_elems
+
+    ID  shift, and go to state 26
+
+    const_indecl_elem   go to state 27
+    const_indecl_elems  go to state 28
+
+
+State 17
+
+    0 $accept: progr $end .
+
+    $default  accept
+
+
+State 18
+
+   14 declaratie: data_type ID . formal_args
+   21 indecl_elem: ID .
+   22            | ID . '=' EXPR
+   27 definitie: data_type ID . formal_args bloc
+
+    '='  shift, and go to state 29
+    '('  shift, and go to state 30
+
+    $default  reduce using rule 21 (indecl_elem)
+
+    formal_args  go to state 31
+
+
+State 19
+
+   23 indecl_elems: indecl_elem .
+   24             | indecl_elem . ',' indecl_elems
+
+    ','  shift, and go to state 32
+
+    $default  reduce using rule 23 (indecl_elems)
+
+
+State 20
+
+   16 declaratie_var: data_type indecl_elems .
+
+    $default  reduce using rule 16 (declaratie_var)
+
+
+State 21
+
+    3 declaratii: decl_or_def declaratii .
+
+    $default  reduce using rule 3 (declaratii)
+
+
+State 22
+
+   10 decl_or_def: declaratie ';' .
+
+    $default  reduce using rule 10 (decl_or_def)
+
+
+State 23
+
+    9 data_type: ID '<' INT_L . '>'
+
+    '>'  shift, and go to state 33
+
+
+State 24
+
+   28 definitie: STRUCT ID '{' . decl_membri '}' ';'
+
+    ID        shift, and go to state 1
+    TIP_PRED  shift, and go to state 3
+
+    decl_membri     go to state 34
+    data_type       go to state 35
+    declaratie_var  go to state 36
+
+
+State 25
+
+    8 data_type: TIP_PRED '<' INT_L . '>'
+
+    '>'  shift, and go to state 37
+
+
+State 26
+
+   18 const_indecl_elem: ID . '=' EXPR
+
+    '='  shift, and go to state 38
+
+
+State 27
+
+   19 const_indecl_elems: const_indecl_elem .
+   20                   | const_indecl_elem . ',' const_indecl_elems
+
+    ','  shift, and go to state 39
+
+    $default  reduce using rule 19 (const_indecl_elems)
+
+
+State 28
+
+   17 declaratie_const: CONST data_type const_indecl_elems .
+
+    $default  reduce using rule 17 (declaratie_const)
+
+
+State 29
+
+   22 indecl_elem: ID '=' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 49
+    number      go to state 50
+
+
+State 30
+
+   25 formal_args: '(' . ')'
+   26            | '(' . lista_param ')'
+
+    ID        shift, and go to state 1
+    TIP_PRED  shift, and go to state 3
+    ')'       shift, and go to state 51
+
+    data_type    go to state 52
+    lista_param  go to state 53
+    param        go to state 54
+
+
+State 31
+
+   14 declaratie: data_type ID formal_args .
+   27 definitie: data_type ID formal_args . bloc
+
+    '{'  shift, and go to state 55
+
+    $default  reduce using rule 14 (declaratie)
+
+    bloc  go to state 56
+
+
+State 32
+
+   24 indecl_elems: indecl_elem ',' . indecl_elems
+
+    ID  shift, and go to state 57
+
+    indecl_elem   go to state 19
+    indecl_elems  go to state 58
+
+
+State 33
+
+    9 data_type: ID '<' INT_L '>' .
+
+    $default  reduce using rule 9 (data_type)
+
+
+State 34
+
+   28 definitie: STRUCT ID '{' decl_membri . '}' ';'
+
+    '}'  shift, and go to state 59
+
+
+State 35
+
+   16 declaratie_var: data_type . indecl_elems
+
+    ID  shift, and go to state 57
+
+    indecl_elem   go to state 19
+    indecl_elems  go to state 20
+
+
+State 36
+
+    4 decl_membri: declaratie_var . ';'
+    5            | declaratie_var . ';' decl_membri
+
+    ';'  shift, and go to state 60
+
+
+State 37
+
+    8 data_type: TIP_PRED '<' INT_L '>' .
+
+    $default  reduce using rule 8 (data_type)
+
+
+State 38
+
+   18 const_indecl_elem: ID '=' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 61
+    number      go to state 50
+
+
+State 39
+
+   20 const_indecl_elems: const_indecl_elem ',' . const_indecl_elems
+
+    ID  shift, and go to state 26
+
+    const_indecl_elem   go to state 27
+    const_indecl_elems  go to state 62
+
+
+State 40
+
+   37 apel_func: ID . '(' lista_apel ')'
+   38          | ID . '(' ')'
+   42 reference: ID .
+   43          | ID . '[' EXPR ']'
+
+    '('  shift, and go to state 63
+    '['  shift, and go to state 64
+
+    $default  reduce using rule 42 (reference)
+
+
+State 41
+
+   96 number: FLOAT_L .
+
+    $default  reduce using rule 96 (number)
+
+
+State 42
+
+   95 number: INT_L .
+
+    $default  reduce using rule 95 (number)
+
+
+State 43
+
+   72 EXPR: '!' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 65
+    number      go to state 50
+
+
+State 44
+
+   74 EXPR: '-' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 66
+    number      go to state 50
+
+
+State 45
+
+   71 EXPR: '(' . EXPR ')'
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 67
+    number      go to state 50
+
+
+State 46
+
+   70 EXPR: apel_func .
+
+    $default  reduce using rule 70 (EXPR)
+
+
+State 47
+
+   44 nested_ref: reference .
+   45           | reference . '.' nested_ref
+
+    '.'  shift, and go to state 68
+
+    $default  reduce using rule 44 (nested_ref)
+
+
+State 48
+
+   61 EXPR: nested_ref .
+
+    $default  reduce using rule 61 (EXPR)
+
+
+State 49
+
+   22 indecl_elem: ID '=' EXPR .
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 22 (indecl_elem)
+
+
+State 50
+
+   69 EXPR: number .
+
+    $default  reduce using rule 69 (EXPR)
+
+
+State 51
+
+   25 formal_args: '(' ')' .
+
+    $default  reduce using rule 25 (formal_args)
+
+
+State 52
+
+   31 param: data_type . ID
+
+    ID  shift, and go to state 81
+
+
+State 53
+
+   26 formal_args: '(' lista_param . ')'
+
+    ')'  shift, and go to state 82
+
+
+State 54
+
+   29 lista_param: param .
+   30            | param . ',' lista_param
+
+    ','  shift, and go to state 83
+
+    $default  reduce using rule 29 (lista_param)
+
+
+State 55
+
+   32 bloc: '{' . lista_instr '}'
+
+    ID        shift, and go to state 84
+    FOR       shift, and go to state 85
+    WHILE     shift, and go to state 86
+    DO        shift, and go to state 87
+    FLOAT_L   shift, and go to state 41
+    INT_L     shift, and go to state 42
+    IF        shift, and go to state 88
+    PRINT     shift, and go to state 89
+    TIP_PRED  shift, and go to state 3
+    BREAK     shift, and go to state 90
+    CONTINUE  shift, and go to state 91
+    RETURN    shift, and go to state 92
+    '!'       shift, and go to state 43
+    '-'       shift, and go to state 44
+    '('       shift, and go to state 45
+
+    data_type       go to state 35
+    declaratie_var  go to state 93
+    lista_instr     go to state 94
+    apel_func       go to state 95
+    while_line      go to state 96
+    reference       go to state 47
+    nested_ref      go to state 97
+    statement       go to state 98
+    assignment      go to state 99
+    EXPR            go to state 100
+    number          go to state 50
+
+
+State 56
+
+   27 definitie: data_type ID formal_args bloc .
+
+    $default  reduce using rule 27 (definitie)
+
+
+State 57
+
+   21 indecl_elem: ID .
+   22            | ID . '=' EXPR
+
+    '='  shift, and go to state 29
+
+    $default  reduce using rule 21 (indecl_elem)
+
+
+State 58
+
+   24 indecl_elems: indecl_elem ',' indecl_elems .
+
+    $default  reduce using rule 24 (indecl_elems)
+
+
+State 59
+
+   28 definitie: STRUCT ID '{' decl_membri '}' . ';'
+
+    ';'  shift, and go to state 101
+
+
+State 60
+
+    4 decl_membri: declaratie_var ';' .
+    5            | declaratie_var ';' . decl_membri
+
+    ID        shift, and go to state 1
+    TIP_PRED  shift, and go to state 3
+
+    $default  reduce using rule 4 (decl_membri)
+
+    decl_membri     go to state 102
+    data_type       go to state 35
+    declaratie_var  go to state 36
+
+
+State 61
+
+   18 const_indecl_elem: ID '=' EXPR .
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 18 (const_indecl_elem)
+
+
+State 62
+
+   20 const_indecl_elems: const_indecl_elem ',' const_indecl_elems .
+
+    $default  reduce using rule 20 (const_indecl_elems)
+
+
+State 63
+
+   37 apel_func: ID '(' . lista_apel ')'
+   38          | ID '(' . ')'
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+    ')'      shift, and go to state 103
+
+    apel_func   go to state 46
+    lista_apel  go to state 104
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 105
+    number      go to state 50
+
+
+State 64
+
+   43 reference: ID '[' . EXPR ']'
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 106
+    number      go to state 50
+
+
+State 65
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   72     | '!' EXPR .
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 72 (EXPR)
+
+
+State 66
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   74     | '-' EXPR .
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    $default  reduce using rule 74 (EXPR)
+
+
+State 67
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   71     | '(' EXPR . ')'
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+    ')'  shift, and go to state 107
+
+
+State 68
+
+   45 nested_ref: reference '.' . nested_ref
+
+    ID  shift, and go to state 108
+
+    reference   go to state 47
+    nested_ref  go to state 109
+
+
+State 69
+
+   66 EXPR: EXPR EQ . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 110
+    number      go to state 50
+
+
+State 70
+
+   64 EXPR: EXPR LTE . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 111
+    number      go to state 50
+
+
+State 71
+
+   65 EXPR: EXPR GTE . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 112
+    number      go to state 50
+
+
+State 72
+
+   68 EXPR: EXPR AND . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 113
+    number      go to state 50
+
+
+State 73
+
+   67 EXPR: EXPR OR . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 114
+    number      go to state 50
+
+
+State 74
+
+   62 EXPR: EXPR '>' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 115
+    number      go to state 50
+
+
+State 75
+
+   63 EXPR: EXPR '<' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 116
+    number      go to state 50
+
+
+State 76
+
+   73 EXPR: EXPR '+' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 117
+    number      go to state 50
+
+
+State 77
+
+   75 EXPR: EXPR '-' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 118
+    number      go to state 50
+
+
+State 78
+
+   76 EXPR: EXPR '*' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 119
+    number      go to state 50
+
+
+State 79
+
+   77 EXPR: EXPR '/' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 120
+    number      go to state 50
+
+
+State 80
+
+   78 EXPR: EXPR '%' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 121
+    number      go to state 50
+
+
+State 81
+
+   31 param: data_type ID .
+
+    $default  reduce using rule 31 (param)
+
+
+State 82
+
+   26 formal_args: '(' lista_param ')' .
+
+    $default  reduce using rule 26 (formal_args)
+
+
+State 83
+
+   30 lista_param: param ',' . lista_param
+
+    ID        shift, and go to state 1
+    TIP_PRED  shift, and go to state 3
+
+    data_type    go to state 52
+    lista_param  go to state 122
+    param        go to state 54
+
+
+State 84
+
+    6 data_type: ID .
+    9          | ID . '<' INT_L '>'
+   37 apel_func: ID . '(' lista_apel ')'
+   38          | ID . '(' ')'
+   42 reference: ID .
+   43          | ID . '[' EXPR ']'
+
+    '<'  shift, and go to state 13
+    '('  shift, and go to state 63
+    '['  shift, and go to state 64
+
+    ID        reduce using rule 6 (data_type)
+    '<'       [reduce using rule 42 (reference)]
+    $default  reduce using rule 42 (reference)
+
+
+State 85
+
+   55 statement: FOR . '(' declaratie_var ';' EXPR ';' assignment ')' bloc_or_instr
+
+    '('  shift, and go to state 123
+
+
+State 86
+
+   41 while_line: WHILE . '(' EXPR ')'
+
+    '('  shift, and go to state 124
+
+
+State 87
+
+   54 statement: DO . bloc while_line ';'
+
+    '{'  shift, and go to state 55
+
+    bloc  go to state 125
+
+
+State 88
+
+   51 statement: IF . '(' EXPR ')' bloc_or_instr
+   52          | IF . '(' EXPR ')' bloc_or_instr ELSE bloc_or_instr
+
+    '('  shift, and go to state 126
+
+
+State 89
+
+   50 statement: PRINT . '(' CT_EXPR ')' ';'
+
+    '('  shift, and go to state 127
+
+
+State 90
+
+   56 statement: BREAK . ';'
+
+    ';'  shift, and go to state 128
+
+
+State 91
+
+   57 statement: CONTINUE . ';'
+
+    ';'  shift, and go to state 129
+
+
+State 92
+
+   58 statement: RETURN . ';'
+   59          | RETURN . EXPR ';'
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    ';'      shift, and go to state 130
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 131
+    number      go to state 50
+
+
+State 93
+
+   47 statement: declaratie_var . ';'
+
+    ';'  shift, and go to state 132
+
+
+State 94
+
+   32 bloc: '{' lista_instr . '}'
+   36 lista_instr: lista_instr . statement
+
+    ID        shift, and go to state 84
+    FOR       shift, and go to state 85
+    WHILE     shift, and go to state 86
+    DO        shift, and go to state 87
+    FLOAT_L   shift, and go to state 41
+    INT_L     shift, and go to state 42
+    IF        shift, and go to state 88
+    PRINT     shift, and go to state 89
+    TIP_PRED  shift, and go to state 3
+    BREAK     shift, and go to state 90
+    CONTINUE  shift, and go to state 91
+    RETURN    shift, and go to state 92
+    '!'       shift, and go to state 43
+    '-'       shift, and go to state 44
+    '}'       shift, and go to state 133
+    '('       shift, and go to state 45
+
+    data_type       go to state 35
+    declaratie_var  go to state 93
+    apel_func       go to state 95
+    while_line      go to state 96
+    reference       go to state 47
+    nested_ref      go to state 97
+    statement       go to state 134
+    assignment      go to state 99
+    EXPR            go to state 100
+    number          go to state 50
+
+
+State 95
+
+   48 statement: apel_func . ';'
+   70 EXPR: apel_func .
+
+    ';'  shift, and go to state 135
+
+    ';'       [reduce using rule 70 (EXPR)]
+    $default  reduce using rule 70 (EXPR)
+
+
+State 96
+
+   53 statement: while_line . bloc_or_instr
+
+    ID        shift, and go to state 84
+    FOR       shift, and go to state 85
+    WHILE     shift, and go to state 86
+    DO        shift, and go to state 87
+    FLOAT_L   shift, and go to state 41
+    INT_L     shift, and go to state 42
+    IF        shift, and go to state 88
+    PRINT     shift, and go to state 89
+    TIP_PRED  shift, and go to state 3
+    BREAK     shift, and go to state 90
+    CONTINUE  shift, and go to state 91
+    RETURN    shift, and go to state 92
+    '!'       shift, and go to state 43
+    '-'       shift, and go to state 44
+    '{'       shift, and go to state 55
+    '('       shift, and go to state 45
+
+    data_type       go to state 35
+    declaratie_var  go to state 93
+    bloc            go to state 136
+    bloc_or_instr   go to state 137
+    apel_func       go to state 95
+    while_line      go to state 96
+    reference       go to state 47
+    nested_ref      go to state 97
+    statement       go to state 138
+    assignment      go to state 99
+    EXPR            go to state 100
+    number          go to state 50
+
+
+State 97
+
+   60 assignment: nested_ref . '=' EXPR
+   61 EXPR: nested_ref .
+
+    '='  shift, and go to state 139
+
+    $default  reduce using rule 61 (EXPR)
+
+
+State 98
+
+   35 lista_instr: statement .
+
+    $default  reduce using rule 35 (lista_instr)
+
+
+State 99
+
+   49 statement: assignment . ';'
+
+    ';'  shift, and go to state 140
+
+
+State 100
+
+   46 statement: EXPR . ';'
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    ';'  shift, and go to state 141
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+
+State 101
+
+   28 definitie: STRUCT ID '{' decl_membri '}' ';' .
+
+    $default  reduce using rule 28 (definitie)
+
+
+State 102
+
+    5 decl_membri: declaratie_var ';' decl_membri .
+
+    $default  reduce using rule 5 (decl_membri)
+
+
+State 103
+
+   38 apel_func: ID '(' ')' .
+
+    $default  reduce using rule 38 (apel_func)
+
+
+State 104
+
+   37 apel_func: ID '(' lista_apel . ')'
+
+    ')'  shift, and go to state 142
+
+
+State 105
+
+   39 lista_apel: EXPR .
+   40           | EXPR . ',' lista_apel
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    ','  shift, and go to state 143
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 39 (lista_apel)
+
+
+State 106
+
+   43 reference: ID '[' EXPR . ']'
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+    ']'  shift, and go to state 144
+
+
+State 107
+
+   71 EXPR: '(' EXPR ')' .
+
+    $default  reduce using rule 71 (EXPR)
+
+
+State 108
+
+   42 reference: ID .
+   43          | ID . '[' EXPR ']'
+
+    '['  shift, and go to state 64
+
+    $default  reduce using rule 42 (reference)
+
+
+State 109
+
+   45 nested_ref: reference '.' nested_ref .
+
+    $default  reduce using rule 45 (nested_ref)
+
+
+State 110
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   66     | EXPR EQ EXPR .
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 66 (EXPR)
+
+
+State 111
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   64     | EXPR LTE EXPR .
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 64 (EXPR)
+
+
+State 112
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   65     | EXPR GTE EXPR .
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 65 (EXPR)
+
+
+State 113
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   68     | EXPR AND EXPR .
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 68 (EXPR)
+
+
+State 114
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   67     | EXPR OR EXPR .
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 67 (EXPR)
+
+
+State 115
+
+   62 EXPR: EXPR . '>' EXPR
+   62     | EXPR '>' EXPR .
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 62 (EXPR)
+
+
+State 116
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   63     | EXPR '<' EXPR .
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 63 (EXPR)
+
+
+State 117
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   73     | EXPR '+' EXPR .
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 73 (EXPR)
+
+
+State 118
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   75     | EXPR '-' EXPR .
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 75 (EXPR)
+
+
+State 119
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   76     | EXPR '*' EXPR .
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    $default  reduce using rule 76 (EXPR)
+
+
+State 120
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   77     | EXPR '/' EXPR .
+   78     | EXPR . '%' EXPR
+
+    $default  reduce using rule 77 (EXPR)
+
+
+State 121
+
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+   78     | EXPR '%' EXPR .
+
+    $default  reduce using rule 78 (EXPR)
+
+
+State 122
+
+   30 lista_param: param ',' lista_param .
+
+    $default  reduce using rule 30 (lista_param)
+
+
+State 123
+
+   55 statement: FOR '(' . declaratie_var ';' EXPR ';' assignment ')' bloc_or_instr
+
+    ID        shift, and go to state 1
+    TIP_PRED  shift, and go to state 3
+
+    data_type       go to state 35
+    declaratie_var  go to state 145
+
+
+State 124
+
+   41 while_line: WHILE '(' . EXPR ')'
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 146
+    number      go to state 50
+
+
+State 125
+
+   54 statement: DO bloc . while_line ';'
+
+    WHILE  shift, and go to state 86
+
+    while_line  go to state 147
+
+
+State 126
+
+   51 statement: IF '(' . EXPR ')' bloc_or_instr
+   52          | IF '(' . EXPR ')' bloc_or_instr ELSE bloc_or_instr
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 148
+    number      go to state 50
+
+
+State 127
+
+   50 statement: PRINT '(' . CT_EXPR ')' ';'
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 152
+    number   go to state 153
+
+
+State 128
+
+   56 statement: BREAK ';' .
+
+    $default  reduce using rule 56 (statement)
+
+
+State 129
+
+   57 statement: CONTINUE ';' .
+
+    $default  reduce using rule 57 (statement)
+
+
+State 130
+
+   58 statement: RETURN ';' .
+
+    $default  reduce using rule 58 (statement)
+
+
+State 131
+
+   59 statement: RETURN EXPR . ';'
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    ';'  shift, and go to state 154
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+
+State 132
+
+   47 statement: declaratie_var ';' .
+
+    $default  reduce using rule 47 (statement)
+
+
+State 133
+
+   32 bloc: '{' lista_instr '}' .
+
+    $default  reduce using rule 32 (bloc)
+
+
+State 134
+
+   36 lista_instr: lista_instr statement .
+
+    $default  reduce using rule 36 (lista_instr)
+
+
+State 135
+
+   48 statement: apel_func ';' .
+
+    $default  reduce using rule 48 (statement)
+
+
+State 136
+
+   34 bloc_or_instr: bloc .
+
+    $default  reduce using rule 34 (bloc_or_instr)
+
+
+State 137
+
+   53 statement: while_line bloc_or_instr .
+
+    $default  reduce using rule 53 (statement)
+
+
+State 138
+
+   33 bloc_or_instr: statement .
+
+    $default  reduce using rule 33 (bloc_or_instr)
+
+
+State 139
+
+   60 assignment: nested_ref '=' . EXPR
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 155
+    number      go to state 50
+
+
+State 140
+
+   49 statement: assignment ';' .
+
+    $default  reduce using rule 49 (statement)
+
+
+State 141
+
+   46 statement: EXPR ';' .
+
+    $default  reduce using rule 46 (statement)
+
+
+State 142
+
+   37 apel_func: ID '(' lista_apel ')' .
+
+    $default  reduce using rule 37 (apel_func)
+
+
+State 143
+
+   40 lista_apel: EXPR ',' . lista_apel
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    lista_apel  go to state 156
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 105
+    number      go to state 50
+
+
+State 144
+
+   43 reference: ID '[' EXPR ']' .
+
+    $default  reduce using rule 43 (reference)
+
+
+State 145
+
+   55 statement: FOR '(' declaratie_var . ';' EXPR ';' assignment ')' bloc_or_instr
+
+    ';'  shift, and go to state 157
+
+
+State 146
+
+   41 while_line: WHILE '(' EXPR . ')'
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+    ')'  shift, and go to state 158
+
+
+State 147
+
+   54 statement: DO bloc while_line . ';'
+
+    ';'  shift, and go to state 159
+
+
+State 148
+
+   51 statement: IF '(' EXPR . ')' bloc_or_instr
+   52          | IF '(' EXPR . ')' bloc_or_instr ELSE bloc_or_instr
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+    ')'  shift, and go to state 160
+
+
+State 149
+
+   88 CT_EXPR: '!' . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 161
+    number   go to state 153
+
+
+State 150
+
+   90 CT_EXPR: '-' . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 162
+    number   go to state 153
+
+
+State 151
+
+   87 CT_EXPR: '(' . CT_EXPR ')'
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 163
+    number   go to state 153
+
+
+State 152
+
+   50 statement: PRINT '(' CT_EXPR . ')' ';'
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    EQ   shift, and go to state 164
+    LTE  shift, and go to state 165
+    GTE  shift, and go to state 166
+    AND  shift, and go to state 167
+    OR   shift, and go to state 168
+    '>'  shift, and go to state 169
+    '<'  shift, and go to state 170
+    '+'  shift, and go to state 171
+    '-'  shift, and go to state 172
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+    ')'  shift, and go to state 176
+
+
+State 153
+
+   86 CT_EXPR: number .
+
+    $default  reduce using rule 86 (CT_EXPR)
+
+
+State 154
+
+   59 statement: RETURN EXPR ';' .
+
+    $default  reduce using rule 59 (statement)
+
+
+State 155
+
+   60 assignment: nested_ref '=' EXPR .
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+    $default  reduce using rule 60 (assignment)
+
+
+State 156
+
+   40 lista_apel: EXPR ',' lista_apel .
+
+    $default  reduce using rule 40 (lista_apel)
+
+
+State 157
+
+   55 statement: FOR '(' declaratie_var ';' . EXPR ';' assignment ')' bloc_or_instr
+
+    ID       shift, and go to state 40
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 43
+    '-'      shift, and go to state 44
+    '('      shift, and go to state 45
+
+    apel_func   go to state 46
+    reference   go to state 47
+    nested_ref  go to state 48
+    EXPR        go to state 177
+    number      go to state 50
+
+
+State 158
+
+   41 while_line: WHILE '(' EXPR ')' .
+
+    $default  reduce using rule 41 (while_line)
+
+
+State 159
+
+   54 statement: DO bloc while_line ';' .
+
+    $default  reduce using rule 54 (statement)
+
+
+State 160
+
+   51 statement: IF '(' EXPR ')' . bloc_or_instr
+   52          | IF '(' EXPR ')' . bloc_or_instr ELSE bloc_or_instr
+
+    ID        shift, and go to state 84
+    FOR       shift, and go to state 85
+    WHILE     shift, and go to state 86
+    DO        shift, and go to state 87
+    FLOAT_L   shift, and go to state 41
+    INT_L     shift, and go to state 42
+    IF        shift, and go to state 88
+    PRINT     shift, and go to state 89
+    TIP_PRED  shift, and go to state 3
+    BREAK     shift, and go to state 90
+    CONTINUE  shift, and go to state 91
+    RETURN    shift, and go to state 92
+    '!'       shift, and go to state 43
+    '-'       shift, and go to state 44
+    '{'       shift, and go to state 55
+    '('       shift, and go to state 45
+
+    data_type       go to state 35
+    declaratie_var  go to state 93
+    bloc            go to state 136
+    bloc_or_instr   go to state 178
+    apel_func       go to state 95
+    while_line      go to state 96
+    reference       go to state 47
+    nested_ref      go to state 97
+    statement       go to state 138
+    assignment      go to state 99
+    EXPR            go to state 100
+    number          go to state 50
+
+
+State 161
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   88        | '!' CT_EXPR .
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    '+'  shift, and go to state 171
+    '-'  shift, and go to state 172
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+
+    $default  reduce using rule 88 (CT_EXPR)
+
+
+State 162
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   90        | '-' CT_EXPR .
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    $default  reduce using rule 90 (CT_EXPR)
+
+
+State 163
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   87        | '(' CT_EXPR . ')'
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    EQ   shift, and go to state 164
+    LTE  shift, and go to state 165
+    GTE  shift, and go to state 166
+    AND  shift, and go to state 167
+    OR   shift, and go to state 168
+    '>'  shift, and go to state 169
+    '<'  shift, and go to state 170
+    '+'  shift, and go to state 171
+    '-'  shift, and go to state 172
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+    ')'  shift, and go to state 179
+
+
+State 164
+
+   83 CT_EXPR: CT_EXPR EQ . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 180
+    number   go to state 153
+
+
+State 165
+
+   81 CT_EXPR: CT_EXPR LTE . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 181
+    number   go to state 153
+
+
+State 166
+
+   82 CT_EXPR: CT_EXPR GTE . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 182
+    number   go to state 153
+
+
+State 167
+
+   85 CT_EXPR: CT_EXPR AND . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 183
+    number   go to state 153
+
+
+State 168
+
+   84 CT_EXPR: CT_EXPR OR . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 184
+    number   go to state 153
+
+
+State 169
+
+   79 CT_EXPR: CT_EXPR '>' . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 185
+    number   go to state 153
+
+
+State 170
+
+   80 CT_EXPR: CT_EXPR '<' . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 186
+    number   go to state 153
+
+
+State 171
+
+   89 CT_EXPR: CT_EXPR '+' . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 187
+    number   go to state 153
+
+
+State 172
+
+   91 CT_EXPR: CT_EXPR '-' . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 188
+    number   go to state 153
+
+
+State 173
+
+   92 CT_EXPR: CT_EXPR '*' . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 189
+    number   go to state 153
+
+
+State 174
+
+   93 CT_EXPR: CT_EXPR '/' . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 190
+    number   go to state 153
+
+
+State 175
+
+   94 CT_EXPR: CT_EXPR '%' . CT_EXPR
+
+    FLOAT_L  shift, and go to state 41
+    INT_L    shift, and go to state 42
+    '!'      shift, and go to state 149
+    '-'      shift, and go to state 150
+    '('      shift, and go to state 151
+
+    CT_EXPR  go to state 191
+    number   go to state 153
+
+
+State 176
+
+   50 statement: PRINT '(' CT_EXPR ')' . ';'
+
+    ';'  shift, and go to state 192
+
+
+State 177
+
+   55 statement: FOR '(' declaratie_var ';' EXPR . ';' assignment ')' bloc_or_instr
+   62 EXPR: EXPR . '>' EXPR
+   63     | EXPR . '<' EXPR
+   64     | EXPR . LTE EXPR
+   65     | EXPR . GTE EXPR
+   66     | EXPR . EQ EXPR
+   67     | EXPR . OR EXPR
+   68     | EXPR . AND EXPR
+   73     | EXPR . '+' EXPR
+   75     | EXPR . '-' EXPR
+   76     | EXPR . '*' EXPR
+   77     | EXPR . '/' EXPR
+   78     | EXPR . '%' EXPR
+
+    EQ   shift, and go to state 69
+    LTE  shift, and go to state 70
+    GTE  shift, and go to state 71
+    AND  shift, and go to state 72
+    OR   shift, and go to state 73
+    ';'  shift, and go to state 193
+    '>'  shift, and go to state 74
+    '<'  shift, and go to state 75
+    '+'  shift, and go to state 76
+    '-'  shift, and go to state 77
+    '*'  shift, and go to state 78
+    '/'  shift, and go to state 79
+    '%'  shift, and go to state 80
+
+
+State 178
+
+   51 statement: IF '(' EXPR ')' bloc_or_instr .
+   52          | IF '(' EXPR ')' bloc_or_instr . ELSE bloc_or_instr
+
+    ELSE  shift, and go to state 194
+
+    ELSE      [reduce using rule 51 (statement)]
+    $default  reduce using rule 51 (statement)
+
+
+State 179
+
+   87 CT_EXPR: '(' CT_EXPR ')' .
+
+    $default  reduce using rule 87 (CT_EXPR)
+
+
+State 180
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   83        | CT_EXPR EQ CT_EXPR .
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    '+'  shift, and go to state 171
+    '-'  shift, and go to state 172
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+
+    $default  reduce using rule 83 (CT_EXPR)
+
+
+State 181
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   81        | CT_EXPR LTE CT_EXPR .
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    '+'  shift, and go to state 171
+    '-'  shift, and go to state 172
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+
+    $default  reduce using rule 81 (CT_EXPR)
+
+
+State 182
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   82        | CT_EXPR GTE CT_EXPR .
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    '+'  shift, and go to state 171
+    '-'  shift, and go to state 172
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+
+    $default  reduce using rule 82 (CT_EXPR)
+
+
+State 183
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   85        | CT_EXPR AND CT_EXPR .
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    EQ   shift, and go to state 164
+    LTE  shift, and go to state 165
+    GTE  shift, and go to state 166
+    '>'  shift, and go to state 169
+    '<'  shift, and go to state 170
+    '+'  shift, and go to state 171
+    '-'  shift, and go to state 172
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+
+    $default  reduce using rule 85 (CT_EXPR)
+
+
+State 184
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   84        | CT_EXPR OR CT_EXPR .
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    EQ   shift, and go to state 164
+    LTE  shift, and go to state 165
+    GTE  shift, and go to state 166
+    AND  shift, and go to state 167
+    '>'  shift, and go to state 169
+    '<'  shift, and go to state 170
+    '+'  shift, and go to state 171
+    '-'  shift, and go to state 172
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+
+    $default  reduce using rule 84 (CT_EXPR)
+
+
+State 185
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   79        | CT_EXPR '>' CT_EXPR .
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    '+'  shift, and go to state 171
+    '-'  shift, and go to state 172
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+
+    $default  reduce using rule 79 (CT_EXPR)
+
+
+State 186
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   80        | CT_EXPR '<' CT_EXPR .
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    '+'  shift, and go to state 171
+    '-'  shift, and go to state 172
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+
+    $default  reduce using rule 80 (CT_EXPR)
+
+
+State 187
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   89        | CT_EXPR '+' CT_EXPR .
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+
+    $default  reduce using rule 89 (CT_EXPR)
+
+
+State 188
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   91        | CT_EXPR '-' CT_EXPR .
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    '*'  shift, and go to state 173
+    '/'  shift, and go to state 174
+    '%'  shift, and go to state 175
+
+    $default  reduce using rule 91 (CT_EXPR)
+
+
+State 189
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   92        | CT_EXPR '*' CT_EXPR .
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+
+    $default  reduce using rule 92 (CT_EXPR)
+
+
+State 190
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   93        | CT_EXPR '/' CT_EXPR .
+   94        | CT_EXPR . '%' CT_EXPR
+
+    $default  reduce using rule 93 (CT_EXPR)
+
+
+State 191
+
+   79 CT_EXPR: CT_EXPR . '>' CT_EXPR
+   80        | CT_EXPR . '<' CT_EXPR
+   81        | CT_EXPR . LTE CT_EXPR
+   82        | CT_EXPR . GTE CT_EXPR
+   83        | CT_EXPR . EQ CT_EXPR
+   84        | CT_EXPR . OR CT_EXPR
+   85        | CT_EXPR . AND CT_EXPR
+   89        | CT_EXPR . '+' CT_EXPR
+   91        | CT_EXPR . '-' CT_EXPR
+   92        | CT_EXPR . '*' CT_EXPR
+   93        | CT_EXPR . '/' CT_EXPR
+   94        | CT_EXPR . '%' CT_EXPR
+   94        | CT_EXPR '%' CT_EXPR .
+
+    $default  reduce using rule 94 (CT_EXPR)
+
+
+State 192
+
+   50 statement: PRINT '(' CT_EXPR ')' ';' .
+
+    $default  reduce using rule 50 (statement)
+
+
+State 193
+
+   55 statement: FOR '(' declaratie_var ';' EXPR ';' . assignment ')' bloc_or_instr
+
+    ID  shift, and go to state 108
+
+    reference   go to state 47
+    nested_ref  go to state 195
+    assignment  go to state 196
+
+
+State 194
+
+   52 statement: IF '(' EXPR ')' bloc_or_instr ELSE . bloc_or_instr
+
+    ID        shift, and go to state 84
+    FOR       shift, and go to state 85
+    WHILE     shift, and go to state 86
+    DO        shift, and go to state 87
+    FLOAT_L   shift, and go to state 41
+    INT_L     shift, and go to state 42
+    IF        shift, and go to state 88
+    PRINT     shift, and go to state 89
+    TIP_PRED  shift, and go to state 3
+    BREAK     shift, and go to state 90
+    CONTINUE  shift, and go to state 91
+    RETURN    shift, and go to state 92
+    '!'       shift, and go to state 43
+    '-'       shift, and go to state 44
+    '{'       shift, and go to state 55
+    '('       shift, and go to state 45
+
+    data_type       go to state 35
+    declaratie_var  go to state 93
+    bloc            go to state 136
+    bloc_or_instr   go to state 197
+    apel_func       go to state 95
+    while_line      go to state 96
+    reference       go to state 47
+    nested_ref      go to state 97
+    statement       go to state 138
+    assignment      go to state 99
+    EXPR            go to state 100
+    number          go to state 50
+
+
+State 195
+
+   60 assignment: nested_ref . '=' EXPR
+
+    '='  shift, and go to state 139
+
+
+State 196
+
+   55 statement: FOR '(' declaratie_var ';' EXPR ';' assignment . ')' bloc_or_instr
+
+    ')'  shift, and go to state 198
+
+
+State 197
+
+   52 statement: IF '(' EXPR ')' bloc_or_instr ELSE bloc_or_instr .
+
+    $default  reduce using rule 52 (statement)
+
+
+State 198
+
+   55 statement: FOR '(' declaratie_var ';' EXPR ';' assignment ')' . bloc_or_instr
+
+    ID        shift, and go to state 84
+    FOR       shift, and go to state 85
+    WHILE     shift, and go to state 86
+    DO        shift, and go to state 87
+    FLOAT_L   shift, and go to state 41
+    INT_L     shift, and go to state 42
+    IF        shift, and go to state 88
+    PRINT     shift, and go to state 89
+    TIP_PRED  shift, and go to state 3
+    BREAK     shift, and go to state 90
+    CONTINUE  shift, and go to state 91
+    RETURN    shift, and go to state 92
+    '!'       shift, and go to state 43
+    '-'       shift, and go to state 44
+    '{'       shift, and go to state 55
+    '('       shift, and go to state 45
+
+    data_type       go to state 35
+    declaratie_var  go to state 93
+    bloc            go to state 136
+    bloc_or_instr   go to state 199
+    apel_func       go to state 95
+    while_line      go to state 96
+    reference       go to state 47
+    nested_ref      go to state 97
+    statement       go to state 138
+    assignment      go to state 99
+    EXPR            go to state 100
+    number          go to state 50
+
+
+State 199
+
+   55 statement: FOR '(' declaratie_var ';' EXPR ';' assignment ')' bloc_or_instr .
+
+    $default  reduce using rule 55 (statement)
